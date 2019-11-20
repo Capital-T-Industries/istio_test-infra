@@ -31,7 +31,22 @@ spec:
         - --gcs-credentials-file=/etc/service-account/service-account.json
         - --spyglass
         - --hidden-only
+        - --rerun-creates-job
+        - --oauth-url=/github-login
+        - --github-token-path=/etc/github/oauth
+        - --github-oauth-config-file=/etc/githuboauth/secret
+        - --cookie-secret=/etc/cookie/secret
         volumeMounts:
+        - name: oauth-config
+          mountPath: /etc/githuboauth
+          readOnly: true
+        - name: cookie-secret
+          mountPath: /etc/cookie
+          readOnly: true
+        - name: oauth-token
+          mountPath: /etc/github
+          readOnly: true
+        - name: config
         - name: config
           mountPath: /etc/config
           readOnly: true
@@ -99,6 +114,15 @@ spec:
               name: deck-oauth-proxy
               key: cookieSecret
       volumes:
+      - name: oauth-config
+        secret:
+          secretName: github-oauth-config
+      - name: oauth-token
+        secret:
+          secretName: oauth-token
+      - name: cookie-secret
+        secret:
+          secretName: cookie
       - name: config
         configMap:
           name: config
