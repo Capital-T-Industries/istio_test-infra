@@ -63,8 +63,8 @@ postsubmits:
     - ^master$
     decorate: true
     extra_refs:
-    - base_ref: master
-      org: istio
+    - base_ref: gen_client-go_api_postsubmit-test
+      org: clarketm
       path_alias: istio.io/test-infra
       repo: test-infra
     name: gen_client-go_api_postsubmit
